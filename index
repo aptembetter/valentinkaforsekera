@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная открытка</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #426d55 0%, #3e6e54 50%, #2a704a 100%);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            color: #1c4b37;
+            margin: 20px;
+        }
+        /* Стили для вкладок */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            display: flex;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 20px;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+        .tab button:hover {
+            background-color: #ddd;
+        }
+        .tab button.active {
+            background-color: #204737;
+            color: white;
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            min-height: 400px;
+        }
+        /* Галерея фото */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .photo-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .photo-grid img:hover {
+            transform: scale(1.05);
+        }
+        /* Модальное окно для фото */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s;
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        /* Анимация появления вкладок */
+        .tabcontent {
+            animation: fadeEffect 0.5s;
+        }
+        @keyframes fadeEffect {
+            from {opacity: 0; transform: translateY(20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💕 интерактивная открытка 💕</h1>
+        
+        <!-- Вкладки -->
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(event, 'letter')">Письмо</button>
+            <button class="tablinks" onclick="openTab(event, 'about')">О нас</button>
+            <button class="tablinks" onclick="openTab(event, 'photos')">Фото</button>
+        </div>
+
+        <!-- Содержимое вкладок -->
+        <div id="letter" class="tabcontent" style="display: block;">
+            <h2>💌 вика, с днём святого валентина!</h2>
+            <p>хочу сказать тебе огромное спасибо за то, что ты есть в моей жизни, ты явно сделала её интереснее. твоя поддержка, юмор и доброта - это то, что делает мой мир лучше. я благодарен тебе за наше общение, знакомство, положительные эмоции которые ты мне принесла, вообщем - за всё! </p>
+            <p>я очень надеюсь, что тебе понравится такая валентика-открытка сайт. это не то, что я хотел сделать, но мне кажется это более уместно в нашей ситуации. очень надеюсь что тебе это понравится</p>
+            <p>желаю тебе всегда оставаться такой же замечательной, достигать всех целей и улыбаться каждый день!  мне очень жаль, что вышло всё так, как вышло, но мы со всем справимся, всё будет хорошо. а пока есть как есть, но ничего мы справимся, мы оба придём к чему-то и всё получится. 🌟</p>
+            <p style="text-align: right; font-style: italic;">с любовью, <br>артём</p>
+        </div>
+
+        <div id="about" class="tabcontent">
+            <h2>👫 о нас</h2>
+            <p>мы были вместе пускай не очень долго, но моментов наших достаточно много.</p>
+            <ul>
+                <li>любим вкусно покушать бурхэры</li>
+                <li>паиграть валарант подобрать скин с котиком</li>
+                <li>обожаем придти к тебе и леч спат</li>
+                <li>когда тепло мы можем повайбить как тогда в дивногорске или на набережной</li>
+                <li>любим хихикать с котиков в тиктоке</li>
+                <li>в свободный день можем ничего не делать без зазрения совести а тока валяца</li>
+                <li>жестко сюсюкаться(раньше)</li>
+            </ul>
+        </div>
+
+        <div id="photos" class="tabcontent">
+            <h2>📸 наши совместные фото(мои любимые)</h2>
+            <p>кликни на фото, чтобы увеличить</p>
+            <div class="photo-grid">
+                <!-- Замени src на свои фото -->
+                <img src="img\foto1.jpg" alt="Фото 1" onclick="openModal(this)">
+                <img src="img\foto2.jpg" alt="Фото 2" onclick="openModal(this)">
+                <img src="img\foto3.jpg" alt="Фото 3" onclick="openModal(this)">
+                <img src="img\foto4.jpg" alt="Фото 4" onclick="openModal(this)">
+                <img src="img\foto5.jpg" alt="Фото 5" onclick="openModal(this)">
+                <img src="img\foto6.jpg" alt="Фото 6" onclick="openModal(this)">
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для фото -->
+    <div id="photoModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
+<!-- Фиксированный плеер -->
+<div id="musicPlayer" style="
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #1c4b37, #1c4b37);
+    padding: 12px 18px;
+    border-radius: 50px;
+    box-shadow: 0 8px 25px rgba(21, 49, 29, 0.4);
+    color: white;
+    font-size: 14px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+">
+    <button id="playPauseBtn" style="
+        border: none;
+        background: white;
+        color: #1c4b37;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        font-size: 18px;
+    ">▶</button>
+
+    <button id="nextBtn" style="
+        border: none;
+        background: rgba(255,255,255,0.2);
+        color: white;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        font-size: 16px;
+    ">⏭</button>
+
+    <span id="trackName">Трек 1</span>
+
+    <!-- Регулятор громкости -->
+    <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5"
+        style="width: 100px; accent-color: #ffffff;">
+
+</div>
+
+<audio id="backgroundMusic" loop preload="auto"></audio>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Скрыть все содержимое вкладок
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            // Убрать активный класс со всех кнопок
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            // Показать выбранную вкладку и добавить активный класс кнопке
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Галерея фото
+        function openModal(img) {
+            var modal = document.getElementById("photoModal");
+            var modalImg = document.getElementById("modalImg");
+            modal.style.display = "block";
+            modalImg.src = img.src;
+        }
+
+        function closeModal() {
+            document.getElementById("photoModal").style.display = "none";
+        }
+
+        // Закрытие модального окна по клику на фон
+        window.onclick = function(event) {
+            var modal = document.getElementById("photoModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Открыть первую вкладку по умолчанию
+        document.getElementsByClassName("tablinks")[0].click();
+    // === МУЗЫКАЛЬНЫЙ ПЛЕЕР ===
+const audio = document.getElementById('backgroundMusic');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const nextBtn = document.getElementById('nextBtn');
+const volumeSlider = document.getElementById('volumeSlider');
+const trackNameSpan = document.getElementById('trackName');
+
+// Список треков
+const tracks = [
+    { src: 'music/1.mp3', title: 'темный прцн' },
+    { src: 'music/2.mp3', title: 'кэнтфилмафейс' },
+    { src: 'music/3.mp3', title: 'мани' }
+];
+
+let currentTrackIndex = 0;
+let isPlaying = false;
+
+// Загрузка трека
+function loadTrack(index) {
+    const track = tracks[index];
+    audio.src = track.src;
+    trackNameSpan.textContent = track.title;
+    audio.load();
+}
+
+loadTrack(currentTrackIndex);
+audio.volume = 0.5;
+
+// Play/Pause
+playPauseBtn.addEventListener('click', () => {
+    if (isPlaying) {
+        audio.pause();
+    } else {
+        audio.play().catch(() => {});
+    }
+});
+
+// Следующий трек
+nextBtn.addEventListener('click', () => {
+    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+    loadTrack(currentTrackIndex);
+    if (isPlaying) {
+        audio.play().catch(() => {});
+    }
+});
+
+// Обновление кнопки при play/pause
+audio.addEventListener('play', () => {
+    isPlaying = true;
+    playPauseBtn.textContent = '⏸';
+});
+
+audio.addEventListener('pause', () => {
+    isPlaying = false;
+    playPauseBtn.textContent = '▶';
+});
+
+// Громкость (0.0–1.0)
+volumeSlider.addEventListener('input', () => {
+    audio.volume = volumeSlider.value; // значение range сразу подходит как volume[web:49][web:51][web:52]
+});
+
+// Автозапуск после первого клика по странице (если нужно)
+document.addEventListener('click', () => {
+    if (!isPlaying && audio.paused) {
+        audio.play().catch(() => {});
+    }
+}, { once: true });
+    </script>
+</body>
+</html>
